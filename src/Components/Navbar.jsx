@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
 
-function Homepage() {
+function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   // Optional: when user resizes to a large screen, close the mobile menu
@@ -61,8 +61,9 @@ function Homepage() {
           </div>
         </div>
       </div>
+      
     </div>
   );
 }
 
-export default Homepage;
+export default Navbar;

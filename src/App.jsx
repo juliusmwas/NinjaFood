@@ -1,4 +1,4 @@
-import Homepage from "./Homepage";
+import Navbar from "./Components/Navbar"
 
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-    <Homepage/>
+    <Navbar/>
     </>
   )
 }
