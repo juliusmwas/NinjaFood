@@ -17,7 +17,7 @@ function Navbar() {
     <div>
       <nav className="relative flex p-4 justify-between items-center bg-white shadow-sm">
         <div>
-          <h1 className="text-2xl font-roboto font-bold">Food <span className="text-orange-400">Ninja </span></h1></div>
+          <h1 className="text-xl lg:text-2xl font-roboto font-bold">Food <span className="text-orange-400">Ninja </span></h1></div>
 
         {/* Desktop links (hidden on small screens) */}
         <div className="hidden lg:flex gap-10 font-roboto text-lg font-semibold">
