@@ -12,7 +12,7 @@ function Dashboard() {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className="fixed top-0 left-0 h-screen w-64 bg-white shadow-xl">
+      <div className="fixed top-0 left-0 h-full w-64 w-64 bg-white shadow-xl">
         <nav className="p-4 font-roboto">
           <div className="flex items-center justify-between pb-6">
             <h1 className="text-2xl font-bold">HabitFlow</h1>
@@ -20,7 +20,7 @@ function Dashboard() {
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center gap-2 p-2 cursor-pointer hover:bg-blue-950 hover:text-white rounded">
+            <div className="flex items-center gap-2  p-2 cursor-pointer hover:bg-blue-950 hover:text-white rounded">
               <LuLayoutDashboard className="text-xl" />
               <span>Dashboard</span>
             </div>
@@ -58,16 +58,24 @@ function Dashboard() {
 
       {/* Main Content */}
       <div className="ml-64 p-4 w-full">
-        {/* Content wrapper ensures equal alignment */}
         <div className="max-w-[1000px]">
-          {/* First row: Box 1 (larger) + Box 2 (smaller) */}
           <div className="flex gap-4 mb-4">
-            <div className="bg-red-200 h-80 w-[700px] rounded flex items-center justify-center">
-              <h1>Box 1</h1>
+
+            <div className="bg-red-200 h-80 w-[700px] rounded flex gap-3 ">
+              <div className="block text-center ">
+                <h1>How to Build <br />a New Habit</h1>
+                <p>This is essential for making progress in your <br />health, happiness and your life</p>
+                <button className="bg-red-400 rounded p-1">+ Add New Habit</button>
+              </div>
+              <div>
+                <img src="./Colony.png" className="h-60" />
+              </div>
             </div>
+
             <div className="bg-red-200 h-80 w-[300px] rounded flex items-center justify-center">
               <h1>Box 2</h1>
             </div>
+
           </div>
 
           {/* Second row: Box 3 spans the same total width */}

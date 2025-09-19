@@ -15,7 +15,7 @@ function Navbar() {
 
   return (
     <div>
-      <nav className="relative flex p-4 justify-between items-center bg-white shadow-sm">
+      <nav className=" fixed top-0 left-0 right-0 relative flex p-4 justify-between items-center bg-white shadow-sm">
         <div>
           <h1 className="text-xl lg:text-2xl font-roboto font-bold">Food <span className="text-orange-400">Ninja </span></h1></div>
 
