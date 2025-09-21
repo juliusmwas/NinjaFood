@@ -9,7 +9,6 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
 
-// Animated Circular Progress Component
 function CircularProgress({ target }) {
   const [value, setValue] = useState(0);
 
@@ -19,33 +18,33 @@ function CircularProgress({ target }) {
       start += 1;
       setValue(start);
       if (start >= target) clearInterval(interval);
-    }, 20); // speed (20ms per step)
+    }, 20);
     return () => clearInterval(interval);
   }, [target]);
 
-  const radius = 50;
-  const stroke = 8;
+  const radius = 70; // bigger radius
+  const stroke = 10;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (value / 100) * circumference;
 
   return (
-    <div className="relative flex justify-center items-center mt-6">
-      <svg width="120" height="120" className="-rotate-90">
+    <div className="relative flex justify-center items-center mt-2">
+      <svg width="160" height="160" className="-rotate-90">
         {/* Background Circle */}
         <circle
-          cx="60"
-          cy="60"
+          cx="80"
+          cy="80"
           r={radius}
-          stroke="#374151" // gray-700
+          stroke="#374153"
           fill="transparent"
           strokeWidth={stroke}
         />
         {/* Progress Circle */}
         <circle
-          cx="60"
-          cy="60"
+          cx="80"
+          cy="80"
           r={radius}
-          stroke="#3b82f6" // blue-500
+          stroke="white"
           fill="transparent"
           strokeWidth={stroke}
           strokeDasharray={circumference}
@@ -54,11 +53,19 @@ function CircularProgress({ target }) {
           style={{ transition: "stroke-dashoffset 0.3s ease" }}
         />
       </svg>
-      {/* Percentage in center */}
-      <span className="absolute text-white text-lg font-bold">{value}%</span>
+
+      {/* Centered content */}
+      <div className="absolute flex flex-col items-center">
+        <span className="text-white text-2xl font-bold">{value}%</span>
+        <span className="text-gray-300 text-sm font-medium mt-1">
+          Average Progress
+        </span>
+      </div>
     </div>
   );
 }
+
+
 
 function Dashboard() {
   return (
@@ -145,6 +152,25 @@ function Dashboard() {
 
               {/* Animated Circular Progress */}
               <CircularProgress target={75} />
+
+              <div className="flex gap-4 text-white p-5 items-center font-medium justify-center">
+                <div>
+                  <h1 className="text-sm">7 Days</h1>
+                  <p className="text-xs">Best Streaks</p>
+                </div>
+                
+                <div>
+                  <h1 className="text-sm">8</h1>
+                  <p className="text-xs">Perfect Days</p>
+                </div>
+
+                <div>
+                  <h1 className="text-sm">24</h1>
+                  <p className="text-xs">Habits Done</p>
+                </div>
+
+              </div>
+
             </div>
           </div>
 
