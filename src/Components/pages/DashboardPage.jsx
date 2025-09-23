@@ -11,6 +11,7 @@ function DashboardPage() {
     { id: 1, name: "Morning Run", progress: 60, streak: 3, completed: false },
     { id: 2, name: "Read 20 minutes", progress: 80, streak: 5, completed: false },
     { id: 3, name: "Drink water", progress: 40, streak: 2, completed: false },
+    { id: 4, name: "Drink water", progress: 40, streak: 2, completed: false },
   ];
   const [habits, setHabits] = useState(initialHabits);
 
@@ -29,17 +30,6 @@ function DashboardPage() {
     );
   };
 
-  // Update progress
-  const updateProgress = (id, value) => {
-    const v = Math.max(0, Math.min(100, value));
-    setHabits((prev) =>
-      prev.map((h) =>
-        h.id === id
-          ? { ...h, progress: v, completed: v >= 100 }
-          : h
-      )
-    );
-  };
 
   // Animate daily progress (right card)
   const getTarget = () => {
@@ -98,7 +88,7 @@ function DashboardPage() {
           <img
             src="/Colony.png"
             alt="Habit illustration"
-            className="h-60 object-contain"
+            className="h-70  object-contain"
           />
         </div>
 
@@ -212,17 +202,8 @@ function DashboardPage() {
                           >
                             {h.completed ? "Undo" : "Complete"}
                           </button>
-                          <button
-                            onClick={() => updateProgress(h.id, h.progress + 10)}
-                            className="px-2 py-1 rounded bg-gray-100 text-sm hover:bg-gray-200"
-                          >
-                            +10
-                          </button>
-                          <button
-                            onClick={() => updateProgress(h.id, h.progress - 10)}
-                            className="px-2 py-1 rounded bg-gray-100 text-sm hover:bg-gray-200"
-                          >
-                            -10
+                          <button className="px-2 py-1 rounded bg-red-500 text-sm text-white"                          >
+                            delete
                           </button>
                         </td>
                       </tr>
@@ -237,6 +218,57 @@ function DashboardPage() {
             <div className="text-center mt-6">
               <h2 className="text-xl font-bold mb-2">Weekly Summary</h2>
               <p className="text-gray-600">This week’s performance and streaks.</p>
+              <div className="overflow-x-auto max-h-[220px]">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50 sticky top-0">
+                    <tr>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Habit</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Progress</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Streak</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-100">
+                    {habits.map((h) => (
+                      <tr key={h.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-sm text-gray-700">{h.name}</td>
+                        <td className="px-4 py-3 w-56">
+                          <div className="bg-gray-200 rounded-full h-3 w-full">
+                            <div
+                              className="h-3 rounded-full transition-all duration-700"
+                              style={{
+                                width: mounted ? `${h.progress}%` : "0%",
+                                backgroundColor: h.completed ? "#10B981" : "#3B82F6",
+                              }}
+                            />
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">{h.progress}%</div>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">{h.streak} days</td>
+                        <td className="px-4 py-3 text-sm">
+                          {h.completed ? (
+                            <span className="text-green-600 font-medium">Completed</span>
+                          ) : (
+                            <span className="text-yellow-600 font-medium">In progress</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-sm flex gap-2">
+                          <button
+                            onClick={() => toggleComplete(h.id)}
+                            className="px-2 py-1 rounded bg-blue-500 text-white text-sm hover:opacity-90"
+                          >
+                            {h.completed ? "Undo" : "Complete"}
+                          </button>
+                          <button className="px-2 py-1 rounded bg-red-500 text-sm text-white"                          >
+                            delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
 
@@ -244,6 +276,57 @@ function DashboardPage() {
             <div className="text-center mt-6">
               <h2 className="text-xl font-bold mb-2">Monthly Trends</h2>
               <p className="text-gray-600">Your long-term progress and stats.</p>
+              <div className="overflow-x-auto max-h-[220px]">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50 sticky top-0">
+                    <tr>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Habit</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Progress</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Streak</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                      <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-100">
+                    {habits.map((h) => (
+                      <tr key={h.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-sm text-gray-700">{h.name}</td>
+                        <td className="px-4 py-3 w-56">
+                          <div className="bg-gray-200 rounded-full h-3 w-full">
+                            <div
+                              className="h-3 rounded-full transition-all duration-700"
+                              style={{
+                                width: mounted ? `${h.progress}%` : "0%",
+                                backgroundColor: h.completed ? "#10B981" : "#3B82F6",
+                              }}
+                            />
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">{h.progress}%</div>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">{h.streak} days</td>
+                        <td className="px-4 py-3 text-sm">
+                          {h.completed ? (
+                            <span className="text-green-600 font-medium">Completed</span>
+                          ) : (
+                            <span className="text-yellow-600 font-medium">In progress</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-sm flex gap-2">
+                          <button
+                            onClick={() => toggleComplete(h.id)}
+                            className="px-2 py-1 rounded bg-blue-500 text-white text-sm hover:opacity-90"
+                          >
+                            {h.completed ? "Undo" : "Complete"}
+                          </button>
+                          <button className="px-2 py-1 rounded bg-red-500 text-sm text-white"                          >
+                            delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </div>
