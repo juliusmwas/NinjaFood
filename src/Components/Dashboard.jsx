@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { IoIosClose} from "react-icons/io";
+import { IoIosClose, IoIosLogOut } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoBarChartOutline, IoSettingsOutline } from "react-icons/io5";
 import { SlCalender } from "react-icons/sl";
 import { BsJournalBookmark } from "react-icons/bs";
 import { LiaAwardSolid } from "react-icons/lia";
 import { FaRegUser } from "react-icons/fa6";
-import { IoIosLogOut } from "react-icons/io";
 
 // Import pages
 import DashboardPage from "./pages/DashboardPage";
@@ -20,6 +19,8 @@ import LogoutPage from "./pages/LogoutPage";
 
 function Dashboard() {
   const [active, setActive] = useState("Dashboard");
+  const [isCollapsed, setIsCollapsed] = useState(false); // toggle collapse
+  const [isMobileOpen, setIsMobileOpen] = useState(false); // toggle mobile sidebar
 
   const renderPage = () => {
     switch (active) {
@@ -38,7 +39,7 @@ function Dashboard() {
       case "Profile":
         return <ProfilePage />;
       case "Logout":
-        return <LogoutPage/>
+        return <LogoutPage />;
       default:
         return <DashboardPage />;
     }
@@ -56,37 +57,79 @@ function Dashboard() {
   ];
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="fixed top-0 left-0 h-full w-64 bg-white shadow-xl">
-        <nav className="p-4 font-roboto">
+      <div
+        className={`fixed top-0 left-0 h-full bg-white shadow-xl transition-all duration-300 
+        ${isCollapsed ? "w-20" : "w-64"} 
+        ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} 
+        md:translate-x-0`}
+      >
+        <nav className="p-4 font-roboto h-full flex flex-col">
+          {/* Header */}
           <div className="flex items-center justify-between pb-6">
-            <h1 className="text-2xl font-bold">HabitFlow</h1>
-            <IoIosClose className="text-3xl cursor-pointer" />
+            {!isCollapsed && <h1 className="text-2xl font-bold">HabitFlow</h1>}
+            <button
+              className="text-2xl md:hidden"
+              onClick={() => setIsMobileOpen(false)}
+            >
+              <IoIosClose />
+            </button>
+            <button
+              className="hidden md:block text-xl p-1"
+              onClick={() => setIsCollapsed(!isCollapsed)}
+            >
+              {isCollapsed ? "➡️" : "⬅️"}
+            </button>
           </div>
 
-          <div className="space-y-2">
+          {/* Menu Items */}
+          <div className="space-y-2 flex-1">
             {menuItems.map((item) => (
               <div
                 key={item.label}
-                onClick={() => setActive(item.label)}
-                className={`flex items-center gap-2 p-2 cursor-pointer rounded ${
-                  active === item.label
-                    ? "bg-blue-950 text-white"
-                    : "hover:bg-blue-100"
-                }`}
+                onClick={() => {
+                  setActive(item.label);
+                  setIsMobileOpen(false); // auto close on mobile
+                }}
+                className={`flex items-center gap-3 p-2 cursor-pointer rounded relative group
+                  ${
+                    active === item.label
+                      ? "bg-blue-950 text-white"
+                      : "hover:bg-blue-100"
+                  }`}
               >
-                {item.icon}
-                <span>{item.label}</span>
+                <div className="text-xl">{item.icon}</div>
+                {!isCollapsed && <span>{item.label}</span>}
+
+                {/* Tooltip when collapsed */}
+                {isCollapsed && (
+                  <span className="absolute left-full ml-2 px-2 py-1 text-sm bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition">
+                    {item.label}
+                  </span>
+                )}
               </div>
             ))}
-
           </div>
         </nav>
       </div>
 
       {/* Main Content */}
-      <div className="ml-64 p-4 w-full overflow-y-auto">{renderPage()}</div>
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          isCollapsed ? "ml-20" : "ml-64"
+        }`}
+      >
+        {/* Mobile menu toggle button */}
+        <button
+          className="md:hidden m-4 p-2 bg-blue-950 text-white rounded"
+          onClick={() => setIsMobileOpen(true)}
+        >
+          ☰
+        </button>
+
+        <div className="p-4">{renderPage()}</div>
+      </div>
     </div>
   );
 }
